@@ -24,7 +24,7 @@ const SignInForm = () => {
     }; //resets to default values
     const handleChange = (event) => {
         const { name, value } = event.target;
-        console.log(value);
+        // console.log(value);
         setFormFields({ ...formFields, [name]: value }); //using input NAMES as state properties
     }; // onChange stateForms, sets the default state values to current values
 
