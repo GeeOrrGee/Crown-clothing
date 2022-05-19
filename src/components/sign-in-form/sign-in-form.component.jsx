@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-    createAuthUserWithEmailAndPassword,
     createUserDocumentFromAuth,
     signInUserWithEmailAndPassword,
     signInWithGooglePopup,
@@ -13,18 +12,20 @@ import FormInput from '../form-input/form-input.component';
 const defaultFormFields = {
     displayName: '',
     email: '',
+    password: '',
 }; // form default state
 
 const SignInForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { email, password } = formFields;
+
     ////////
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }; //resets to default values
     const handleChange = (event) => {
         const { name, value } = event.target;
-        // console.log(value);
+
         setFormFields({ ...formFields, [name]: value }); //using input NAMES as state properties
     }; // onChange stateForms, sets the default state values to current values
 
@@ -33,12 +34,10 @@ const SignInForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await signInUserWithEmailAndPassword(
-                email,
-                password
-            );
-            console.log(response);
+            await signInUserWithEmailAndPassword(email, password);
             resetFormFields();
+
+            ////////////////
         } catch (err) {
             switch (err.code) {
                 case 'auth/user-not-found':
@@ -53,10 +52,9 @@ const SignInForm = () => {
         }
     };
     const signInWithGoogle = async () => {
-        const { user } = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
+        await signInWithGooglePopup();
     };
-    //Sign Up form Component
+    //Sign In form Component
     return (
         <div className='signUp-container'>
             <h2>Already have an account?</h2>

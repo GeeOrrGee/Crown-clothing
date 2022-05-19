@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import { createAuthUserWithEmailAndPassword } from '../../utils/firebase/firebase.utils';
 import { createUserDocumentFromAuth } from '../../utils/firebase/firebase.utils';
 import './signUp.styles.scss';
@@ -14,13 +15,14 @@ const defaultFormFields = {
 const SignUpForm = () => {
     const [formFields, setFormFields] = useState(defaultFormFields);
     const { displayName, email, password, confirmPassword } = formFields;
+
     ////////
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }; //resets to default values
     const handleChange = (event) => {
         const { name, value } = event.target;
-        console.log(value);
+
         setFormFields({ ...formFields, [name]: value }); //using input NAMES as state properties
     }; // onChange stateForms, sets the default state values to current values
 
@@ -36,6 +38,7 @@ const SignUpForm = () => {
             );
             await createUserDocumentFromAuth(user, { displayName });
             resetFormFields();
+
             console.log(user);
         } catch (err) {
             console.log(err);
