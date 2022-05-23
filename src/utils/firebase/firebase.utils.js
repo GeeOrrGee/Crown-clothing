@@ -10,7 +10,16 @@ import {
     createUserWithEmailAndPassword, //email/password sign in/up type auth
     signInWithEmailAndPassword,
 } from 'firebase/auth';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+    getFirestore,
+    doc,
+    getDoc,
+    setDoc,
+    collection,
+    writeBatch,
+    query,
+    getDocs,
+} from 'firebase/firestore';
 
 const firebaseConfig = {
     apiKey: 'AIzaSyDePph4Tm03eArW8fsch_FRkKyf4XJaVto',
@@ -19,6 +28,37 @@ const firebaseConfig = {
     storageBucket: 'crwn-clothing-db-7173f.appspot.com',
     messagingSenderId: '18453764579',
     appId: '1:18453764579:web:9df1da64364ecba1b728d6',
+};
+
+//storing  data to the database
+export const addCollectionAndDocuments = async (
+    collectionKey,
+    objectsToAdd
+) => {
+    const collectionRef = collection(db, collectionKey);
+    const batch = writeBatch(db); // creating collection
+
+    objectsToAdd.forEach((object) => {
+        const docRef = doc(collectionRef, object.title.toLowerCase()); //specifying docRef path 'collection=>title' for each object
+        batch.set(docRef, object); // setting the data/objects to specified docRef path
+    }); // specifying the place to store the collection
+    await batch.commit();
+};
+
+//fetching Categories data from firestore db
+export const getCategoriesAndDocuments = async () => {
+    const collectionRef = collection(db, 'categories'); //specifying the path
+
+    const q = query(collectionRef); // creates a query reference (f.e. useful in transaction, if one side of operation fails, second one doesn't proceed / cancels)
+    const querySnapshot = await getDocs(q); // fetchs data and then takes a snapshot(storing it)
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+        const { title, items } = docSnapshot.data(); //goes through data and destructuring it
+        acc[title.toLowerCase()] = items; // applying data to the relevant title (title: [{data}])
+
+        return acc;
+    }, {});
+    // console.log(categoryMap);
+    return categoryMap;
 };
 
 const firebaseApp = initializeApp(firebaseConfig); //firebase initialization
