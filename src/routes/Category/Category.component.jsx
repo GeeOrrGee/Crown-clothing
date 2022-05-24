@@ -12,12 +12,17 @@ const Category = () => {
     }, [category, categories]);
 
     return (
-        <div className='category-container'>
-            {products &&
-                products.map((product) => (
-                    <ProductCard key={product.id} product={product} />
-                ))}
-        </div>
+        <>
+            <h2 className='category-title-container'>
+                {category.toLocaleUpperCase()}
+            </h2>
+            <div className='category-container'>
+                {products &&
+                    products.map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                    ))}
+            </div>
+        </>
     );
 };
 
