@@ -1,5 +1,5 @@
 import DirectoryItem from '../directory-item/directory-item.component';
-import { useNavigate } from 'react-router-dom';
+
 import './directory.styles.scss';
 const categories = [
     {
