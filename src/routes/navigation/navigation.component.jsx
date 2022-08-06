@@ -13,9 +13,10 @@ import {
 import Cart from '../../components/Cart/Cart.component';
 import CartDropdown from '../../components/Cart-Dropdown/Cart-Dropdown.component';
 import { CartContext } from '../../contexts/Cart.context';
-
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../store/user/user.selecter';
 const Navigation = () => {
-    const { currentUser } = useContext(UserContext);
+    const currentUser = useSelector(selectUser);
     const { isCartOpen } = useContext(CartContext);
     const signOutHandler = async () => {
         await signOutUser();

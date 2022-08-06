@@ -24,7 +24,7 @@ export const EmptyMessage = styled.span`
     margin: 50px auto;
     ${BaseButton},
     ${InvertedButton},
-        ${GoogleButton} {
+    ${GoogleButton} {
         margin-top: auto;
     }
 `;

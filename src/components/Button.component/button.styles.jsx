@@ -36,16 +36,15 @@ export const GoogleButton = styled(BaseButton)`
 `;
 
 export const InvertedButton = styled(BaseButton)`
+    &.inverted {
+        background-color: white;
+        color: black;
+        border: 1px solid black;
 
-   &.inverted {
-  background-color: white;
-  color: black;
-  border: 1px solid black;
-
-  &:hover {
-    background-color: black;
-    color: white;
-    border: none;
-  }
-
+        &:hover {
+            background-color: black;
+            color: white;
+            border: none;
+        }
+    }
 `;
