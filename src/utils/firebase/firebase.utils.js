@@ -51,14 +51,9 @@ export const getCategoriesAndDocuments = async () => {
 
     const q = query(collectionRef); // creates a query reference (f.e. useful in transaction, if one side of operation fails, second one doesn't proceed / cancels)
     const querySnapshot = await getDocs(q); // fetchs data and then takes a snapshot(storing it)
-    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-        const { title, items } = docSnapshot.data(); //goes through data and destructuring it
-        acc[title.toLowerCase()] = items; // applying data to the relevant title (title: [{data}])
-
-        return acc;
-    }, {});
+    return querySnapshot.docs.map((docSnapshot) => docSnapshot.data());
     // console.log(categoryMap);
-    return categoryMap;
+    // return categories;
 };
 
 const firebaseApp = initializeApp(firebaseConfig); //firebase initialization

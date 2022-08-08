@@ -20,7 +20,6 @@ const App = () => {
                 createUserDocumentFromAuth(user);
             }
             dispatch(setCurrentUser(user));
-            console.log(user);
         });
         return unsubscribe;
     }, [dispatch]); // this will never change but eslint errs sux
