@@ -13,16 +13,16 @@ import {
 import Cart from '../../components/Cart/Cart.component';
 import CartDropdown from '../../components/Cart-Dropdown/Cart-Dropdown.component';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectUser } from '../../store/user/user.selecter';
 import { selectIsCartsOpen } from '../../store/cart/cart.selector';
+import { signOutStart } from '../../store/user/user-action';
 const Navigation = () => {
+    const dispatch = useDispatch();
     const currentUser = useSelector(selectUser);
 
     const isCartOpen = useSelector(selectIsCartsOpen);
-    const signOutHandler = async () => {
-        await signOutUser();
-    };
+    const signOutHandler = () => dispatch(signOutStart());
     return (
         <Fragment>
             <NavigationContainer>

@@ -4,9 +4,10 @@ import { useDispatch } from 'react-redux';
 import {
     onAuthStateChangedListener,
     createUserDocumentFromAuth,
+    getCurrentUser,
 } from './utils/firebase/firebase.utils';
 import Home from './routes/home/home.component';
-import { setCurrentUser } from './store/user/user-action';
+import { checkCurrentUser, setCurrentUser } from './store/user/user-action';
 import Navigation from './routes/navigation/navigation.component';
 import Authentication from './routes/authentication/authentication.component';
 import Shop from './routes/Shop/Shop';
@@ -15,13 +16,7 @@ import CheckoutPage from './routes/checkout/checkout.component';
 const App = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        const unsubscribe = onAuthStateChangedListener((user) => {
-            if (user) {
-                createUserDocumentFromAuth(user);
-            }
-            dispatch(setCurrentUser(user));
-        });
-        return unsubscribe;
+        dispatch(checkCurrentUser());
     }, [dispatch]); // this will never change but eslint errs sux
     return (
         <Routes>

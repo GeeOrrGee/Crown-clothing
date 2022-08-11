@@ -23,5 +23,3 @@ export const selectTotalValue = createSelector([selectCartItems], (cartItems) =>
         return total + cartItem.price * cartItem.quantity;
     }, 0)
 );
-
-//TODO amat gadaxede, selector action gaarchie (useContext, dispatch object referensivitaa) , da useContextebi chaanacvle da ideally redux thunk ic moishore

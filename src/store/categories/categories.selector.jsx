@@ -7,3 +7,5 @@ export const selectCategories = (state) =>
 
         return acc;
     }, {});
+
+export const selectIsLoading = (state) => state.categories.isLoading;
