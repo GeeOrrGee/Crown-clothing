@@ -9,6 +9,7 @@ import ProductCard from '../../components/ProductCard/ProductCard.component';
 import { useSelector } from 'react-redux';
 import {
     selectCategories,
+    selectCategoriesMap,
     selectIsLoading,
 } from '../../store/categories/categories.selector.jsx';
 import {
@@ -17,7 +18,7 @@ import {
 } from '../../components/spinner.styles.jsx';
 const Category = () => {
     const { category } = useParams();
-    const categoriesMap = useSelector(selectCategories);
+    const categoriesMap = useSelector(selectCategoriesMap);
     const isLoading = useSelector(selectIsLoading);
     const [products, setProducts] = useState([]);
     useEffect(() => {

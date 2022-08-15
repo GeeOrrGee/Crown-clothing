@@ -9,12 +9,13 @@ import {
 
 import {
     selectCategories,
+    selectCategoriesMap,
     selectCategoryMap,
     selectIsLoading,
 } from '../../store/categories/categories.selector';
 
 export const CategoriesPreview = () => {
-    const categoriesMap = useSelector(selectCategories);
+    const categoriesMap = useSelector(selectCategoriesMap);
     const isLoading = useSelector(selectIsLoading);
 
     return (
