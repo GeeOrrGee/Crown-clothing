@@ -1,8 +1,9 @@
 import { createSelector } from '@reduxjs/toolkit';
+import { RootState } from '../store';
 import { CategoriesState } from './categories.reducer';
 import { CategoryMap } from './categories.types';
 
-export const selectCategoriesState = (state): CategoriesState =>
+export const selectCategoriesState = (state: RootState): CategoriesState =>
     state.categories;
 
 export const selectCategories = createSelector(
@@ -21,4 +22,4 @@ export const selectCategoriesMap = createSelector(
         }, {} as CategoryMap)
 );
 
-export const selectIsLoading = (state) => state.categories.isLoading;
+export const selectIsLoading = (state: RootState) => state.categories.isLoading;

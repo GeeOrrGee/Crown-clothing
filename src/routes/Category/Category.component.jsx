@@ -11,7 +11,7 @@ import {
     selectCategories,
     selectCategoriesMap,
     selectIsLoading,
-} from '../../store/categories/categories.selector.jsx';
+} from '../../store/categories/categories.selector';
 import {
     SpinnerContainer,
     SpinnerOverlay,

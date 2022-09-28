@@ -10,8 +10,10 @@ export const ProductCard = ({ product }) => {
 
     const dispatch = useDispatch();
     const cartItems = useSelector(selectCartItems);
-
-    const addProductToCart = () => dispatch(addItemToCart(cartItems, product));
+    const addProductToCart = () => {
+        console.log(cartItems);
+        dispatch(addItemToCart(cartItems, product));
+    };
 
     return (
         <div className='product-card-container'>

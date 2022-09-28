@@ -14,8 +14,10 @@ const CheckoutItem = ({ item }) => {
     const clearItemsFromCartHandler = () =>
         dispatch(clearItemsFromCart(cartItems, item));
     const addItemHandler = () => dispatch(addItemToCart(cartItems, item));
-    const removeItemHandler = () =>
+    const removeItemHandler = () => {
+        console.log(cartItems);
         dispatch(removeItemFromCart(cartItems, item));
+    };
     const { id, imageUrl, name, price, quantity } = item;
     return (
         <div className='checkout-item-container' key={id}>
