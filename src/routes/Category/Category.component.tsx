@@ -3,12 +3,11 @@ import {
     CategoryTitleContainer,
 } from './Category.styles.jsx';
 import { useParams } from 'react-router-dom';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState } from 'react';
 
 import ProductCard from '../../components/ProductCard/ProductCard.component';
 import { useSelector } from 'react-redux';
 import {
-    selectCategories,
     selectCategoriesMap,
     selectIsLoading,
 } from '../../store/categories/categories.selector';
@@ -16,11 +15,14 @@ import {
     SpinnerContainer,
     SpinnerOverlay,
 } from '../../components/spinner.styles.jsx';
+export type CategoryParams = {
+    category: string;
+};
 const Category = () => {
-    const { category } = useParams();
+    const { category } = useParams<keyof CategoryParams>() as CategoryParams;
     const categoriesMap = useSelector(selectCategoriesMap);
     const isLoading = useSelector(selectIsLoading);
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState(categoriesMap[category]);
     useEffect(() => {
         setProducts(categoriesMap[category]);
     }, [category, categoriesMap]);

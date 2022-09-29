@@ -1,4 +1,3 @@
-import { useContext } from 'react';
 import { useSelector } from 'react-redux';
 
 import CategoryPreview from '../../components/category-preview/category-preview.component';
@@ -8,9 +7,7 @@ import {
 } from '../../components/spinner.styles';
 
 import {
-    selectCategories,
     selectCategoriesMap,
-    selectCategoryMap,
     selectIsLoading,
 } from '../../store/categories/categories.selector';
 

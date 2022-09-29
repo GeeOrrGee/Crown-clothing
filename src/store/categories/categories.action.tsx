@@ -6,7 +6,6 @@ import {
 } from '../../utils/createAction/createAction';
 
 import { CATEGORIES_TYPES, Category } from './categories.types';
-import { getCategoriesAndDocuments } from '../../utils/firebase/firebase.utils';
 
 export type FetchCategoriesStart =
     Action<CATEGORIES_TYPES.FETCH_CATEGORIES_START>;

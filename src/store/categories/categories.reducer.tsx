@@ -4,7 +4,7 @@ import {
     fetchCategoriesStart,
     fetchCategoriesSuccess,
 } from './categories.action';
-import { CATEGORIES_TYPES, Category } from './categories.types';
+import { Category } from './categories.types';
 
 export type CategoriesState = {
     readonly categories: Category[];

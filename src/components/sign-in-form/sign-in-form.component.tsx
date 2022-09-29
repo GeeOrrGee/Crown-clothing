@@ -1,8 +1,4 @@
-import { useState } from 'react';
-import {
-    signInUserWithEmailAndPassword,
-    signInWithGooglePopup,
-} from '../../utils/firebase/firebase.utils';
+import { useState, FormEvent, ChangeEvent } from 'react';
 
 import './signIn.styles.scss';
 import Button from '../Button.component/Button.component';
@@ -13,6 +9,7 @@ import {
     emailSignInStart,
     googleSignInStart,
 } from '../../store/user/user-action';
+import { AuthError, AuthErrorCodes } from 'firebase/auth';
 
 const defaultFormFields = {
     displayName: '',
@@ -29,7 +26,7 @@ const SignInForm = () => {
     const resetFormFields = () => {
         setFormFields(defaultFormFields);
     }; //resets to default values
-    const handleChange = (event) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = event.target;
 
         setFormFields({ ...formFields, [name]: value }); //using input NAMES as state properties
@@ -37,7 +34,7 @@ const SignInForm = () => {
 
     //Fetchs  userDocRef on submit, checks if user exists or not, and subsequently registers in the database
     // Authentication with email/password
-    const handleSubmit = async (event) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         try {
             dispatch(emailSignInStart(email, password));
@@ -45,11 +42,11 @@ const SignInForm = () => {
 
             ////////////////
         } catch (err) {
-            switch (err.code) {
-                case 'auth/user-not-found':
+            switch ((err as AuthError).code) {
+                case AuthErrorCodes.NULL_USER:
                     alert('User does not exist');
                     break;
-                case 'auth/wrong-password':
+                case AuthErrorCodes.INVALID_PASSWORD:
                     alert('Incorrect password');
                     break;
                 default:
@@ -88,7 +85,7 @@ const SignInForm = () => {
                     <Button type='submit'>Sign In</Button>
                     <Button
                         type='button'
-                        btnType={`${buttonTypes.google}`}
+                        btnType={buttonTypes.google}
                         onClick={signInWithGoogle}
                     >
                         Google Sign In
