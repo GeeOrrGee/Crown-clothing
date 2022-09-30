@@ -6,6 +6,8 @@ import './index.scss';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Elements } from '@stripe/react-stripe-js';
+import { stripePromise } from './utils/stripe/stripe.utils';
 
 const rootElement = document.getElementById('root');
 
@@ -15,7 +17,9 @@ render(
         <Provider store={store}>
             <PersistGate persistor={persistor}>
                 <BrowserRouter>
-                    <App />
+                    <Elements stripe={stripePromise}>
+                        <App />
+                    </Elements>
                 </BrowserRouter>
             </PersistGate>
         </Provider>
