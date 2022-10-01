@@ -1,11 +1,22 @@
-import { FormContainer, PaymentFormContainer } from './payment-form.styles';
+import {
+    FormContainer,
+    PaymentButton,
+    PaymentFormContainer,
+} from './payment-form.styles';
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import Button, { buttonTypes } from '../Button.component/Button.component';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectTotalValue } from '../../store/cart/cart.selector';
+import { selectUser } from '../../store/user/user.selecter';
 
 export const PaymentForm = () => {
+    const [paymentProcess, setPaymentProcess] = useState(false);
     const stripe = useStripe();
     const elements = useElements();
+    const currentUser = useSelector(selectUser);
+    const amount = useSelector(selectTotalValue);
 
     const paymentHandler = async (e) => {
         e.preventDefault();
@@ -13,6 +24,7 @@ export const PaymentForm = () => {
             return;
         }
 
+        setPaymentProcess(true);
         const response = await fetch(
             '/.netlify/functions/create-payment-intent',
             {
@@ -20,7 +32,7 @@ export const PaymentForm = () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ amount: 1000 }),
+                body: JSON.stringify({ amount: amount * 100 }),
             }
         ).then((res) => res.json());
 
@@ -32,11 +44,12 @@ export const PaymentForm = () => {
             payment_method: {
                 card: elements.getElement(CardElement),
                 billing_details: {
-                    name: 'George Kheladze test',
+                    name: currentUser ? currentUser.displayName : 'Guest',
                 },
             },
         });
         console.log(paymentResult);
+        setPaymentProcess(false);
         if (paymentResult.paymentIntent.status === 'succeeded') {
             alert('Payment completed!');
         } else if (paymentResult.error) {
@@ -48,7 +61,12 @@ export const PaymentForm = () => {
             <h2>Cart payment: </h2>
             <FormContainer>
                 <CardElement />
-                <Button btnType={buttonTypes.inverted}> Pay now </Button>
+                <PaymentButton
+                    isLoading={paymentProcess}
+                    btnType={buttonTypes.inverted}
+                >
+                    Pay now
+                </PaymentButton>
             </FormContainer>
         </PaymentFormContainer>
     );

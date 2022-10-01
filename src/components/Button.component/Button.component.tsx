@@ -1,4 +1,9 @@
-import { BaseButton, InvertedButton, GoogleButton } from './button.styles';
+import {
+    BaseButton,
+    InvertedButton,
+    GoogleButton,
+    ButtonSpinner,
+} from './button.styles';
 
 import { FC, ButtonHTMLAttributes } from 'react';
 export enum buttonTypes {
@@ -9,6 +14,7 @@ export enum buttonTypes {
 
 export type ButtonProps = {
     btnType?: buttonTypes;
+    isLoading?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
 const getButtonType = (buttonType = buttonTypes.base): typeof BaseButton => {
@@ -19,9 +25,18 @@ const getButtonType = (buttonType = buttonTypes.base): typeof BaseButton => {
     }[buttonType];
 };
 
-const Button: FC<ButtonProps> = ({ children, btnType, ...otherProps }) => {
+const Button: FC<ButtonProps> = ({
+    children,
+    isLoading,
+    btnType,
+    ...otherProps
+}) => {
     const CustomButton = getButtonType(btnType);
-    return <CustomButton {...otherProps}>{children}</CustomButton>;
+    return (
+        <CustomButton disabled={isLoading} {...otherProps}>
+            {isLoading ? <ButtonSpinner /> : children}
+        </CustomButton>
+    );
 };
 
 export default Button;
