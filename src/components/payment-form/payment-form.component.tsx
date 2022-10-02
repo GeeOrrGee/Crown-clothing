@@ -3,13 +3,18 @@ import {
     PaymentButton,
     PaymentFormContainer,
 } from './payment-form.styles';
+import { StripeCardElement } from '@stripe/stripe-js';
 
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import Button, { buttonTypes } from '../Button.component/Button.component';
-import { useState } from 'react';
+import { buttonTypes } from '../Button.component/Button.component';
+import { FormEvent, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectTotalValue } from '../../store/cart/cart.selector';
 import { selectUser } from '../../store/user/user.selecter';
+
+const ifCardElement = (
+    card: StripeCardElement | null
+): card is StripeCardElement => card !== null;
 
 export const PaymentForm = () => {
     const [paymentProcess, setPaymentProcess] = useState(false);
@@ -18,7 +23,7 @@ export const PaymentForm = () => {
     const currentUser = useSelector(selectUser);
     const amount = useSelector(selectTotalValue);
 
-    const paymentHandler = async (e) => {
+    const paymentHandler = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!stripe || !elements) {
             return;
@@ -40,9 +45,13 @@ export const PaymentForm = () => {
             paymentIntent: { client_secret },
         } = response;
 
+        const cardElement = elements.getElement(CardElement);
+
+        if (!ifCardElement(cardElement)) return;
+
         const paymentResult = await stripe.confirmCardPayment(client_secret, {
             payment_method: {
-                card: elements.getElement(CardElement),
+                card: cardElement,
                 billing_details: {
                     name: currentUser ? currentUser.displayName : 'Guest',
                 },
@@ -50,16 +59,16 @@ export const PaymentForm = () => {
         });
         console.log(paymentResult);
         setPaymentProcess(false);
-        if (paymentResult.paymentIntent.status === 'succeeded') {
-            alert('Payment completed!');
-        } else if (paymentResult.error) {
+        if (paymentResult.error) {
             alert(paymentResult.error);
+        } else if (paymentResult.paymentIntent.status === 'succeeded') {
+            alert('Payment completed!');
         }
     };
     return (
-        <PaymentFormContainer onSubmit={paymentHandler}>
+        <PaymentFormContainer>
             <h2>Cart payment: </h2>
-            <FormContainer>
+            <FormContainer onSubmit={paymentHandler}>
                 <CardElement />
                 <PaymentButton
                     isLoading={paymentProcess}

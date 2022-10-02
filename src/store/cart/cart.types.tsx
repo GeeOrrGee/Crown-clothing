@@ -5,7 +5,7 @@ export enum CART_ACTION_TYPES {
     SET_TOTAL_VALUE = 'SET_TOTAL_VALUE',
 }
 
-export type CartItem = {
+export type CartItemType = {
     id: number;
     imageUrl: string;
     name: string;
@@ -13,4 +13,4 @@ export type CartItem = {
     quantity: number;
 };
 
-export type Cart = CartItem[];
+export type Cart = CartItemType[];

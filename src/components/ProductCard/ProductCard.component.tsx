@@ -5,7 +5,13 @@ import { buttonTypes } from '../Button.component/Button.component';
 import { useDispatch, useSelector } from 'react-redux';
 import { addItemToCart } from '../../store/cart/cart.action';
 import { selectCartItems } from '../../store/cart/cart.selector';
-export const ProductCard = ({ product }) => {
+import { CategoryItem } from '../../store/categories/categories.types';
+import { FC } from 'react';
+
+export type ProductCardProps = {
+    product: CategoryItem;
+};
+export const ProductCard: FC<ProductCardProps> = ({ product }) => {
     const { name, imageUrl, price } = product;
 
     const dispatch = useDispatch();
@@ -22,10 +28,7 @@ export const ProductCard = ({ product }) => {
                 <span className='name'>{name}</span>
                 <span className='price'>{price}</span>
             </div>
-            <Button
-                btnType={`${buttonTypes.inverted}`}
-                onClick={addProductToCart}
-            >
+            <Button btnType={buttonTypes.inverted} onClick={addProductToCart}>
                 Add to cart
             </Button>
         </div>

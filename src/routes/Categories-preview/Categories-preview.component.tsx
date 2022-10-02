@@ -24,11 +24,11 @@ export const CategoriesPreview = () => {
             ) : (
                 <div className='shop-container'>
                     {Object.keys(categoriesMap).map((title) => {
-                        const product = categoriesMap[title];
+                        const productsArray = categoriesMap[title];
                         return (
                             <CategoryPreview
                                 key={title}
-                                product={product}
+                                products={productsArray}
                                 title={title}
                             />
                         );

@@ -5,7 +5,6 @@ import {
     CartItems,
     EmptyMessage,
 } from './cart-dropdown.styles.jsx';
-import { useContext } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';

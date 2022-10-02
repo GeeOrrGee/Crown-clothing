@@ -13,7 +13,7 @@ export const Shop = () => {
             dispatch(fetchCategoriesStart());
         };
         getCategoryMap();
-    }, []);
+    }, [dispatch]);
     return (
         <Routes>
             <Route index element={<CategoriesPreview />} />
